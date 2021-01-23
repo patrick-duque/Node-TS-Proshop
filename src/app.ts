@@ -1,9 +1,17 @@
 import express from 'express';
 import { json } from 'body-parser';
+import cors from 'cors';
+import products from './routes/products';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
-const port = 8080 || process.env.PORT;
+const port = process.env.PORT || 8080;
 
 app.use(json());
+app.use(cors());
 
-app.listen(port, () => console.log(`listening in port ${port}`));
+app.use('/products', products);
+
+app.listen(port, () => console.log(`Server running in ${process.env.NODE_ENV} listening in port ${port}`));
