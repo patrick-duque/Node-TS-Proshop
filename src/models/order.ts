@@ -1,41 +1,7 @@
 import { Schema, Document, model } from 'mongoose';
+import { OrderInterface } from './interface';
 
-interface OrderItems {
-  name: string;
-  quantity: number;
-  image: string;
-  price: number;
-  product: Schema.Types.ObjectId;
-}
-
-interface Address {
-  address: string;
-  city: string;
-  postalCode: number;
-}
-
-interface PaymentResult {
-  id: string;
-  status: string;
-  update_time: string;
-  email_address: string;
-}
-
-export interface Order extends Document {
-  _id: Schema.Types.ObjectId;
-  user: Schema.Types.ObjectId;
-  orderItems: OrderItems[];
-  shippingAddress: Address;
-  shippingPrice: number;
-  paymentResult: PaymentResult;
-  paymentMethod: string;
-  taxPrice: number;
-  totalPrice: number;
-  isPaid: boolean;
-  isDelivered: boolean;
-  deliveredAt: Date;
-  paidAt: Date;
-}
+export interface Order extends Document, OrderInterface {}
 
 const orderSchema: Schema = new Schema(
   {

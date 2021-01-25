@@ -1,10 +1,5 @@
 import { Schema, Document, model } from 'mongoose';
-
-interface Review extends Document {
-  name: string;
-  rating: number;
-  comment: string;
-}
+import { ProductInterface } from './interface';
 
 const reviewSchema = new Schema(
   {
@@ -17,20 +12,7 @@ const reviewSchema = new Schema(
   }
 );
 
-export interface Product extends Document {
-  _id: Schema.Types.ObjectId;
-  name: string;
-  image: string;
-  description: string;
-  brand: string;
-  category: string;
-  price: number;
-  countInStock: number;
-  rating: number;
-  numReviews: number;
-  user: Schema.Types.ObjectId;
-  reviews: Review[];
-}
+interface Product extends Document, ProductInterface {}
 
 const productSchema = new Schema(
   {

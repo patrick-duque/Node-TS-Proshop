@@ -1,7 +1,7 @@
 import { Schema, Document, model } from 'mongoose';
+import { UserInterface } from './interface';
 
-export interface User extends Document {
-  _id: Schema.Types.ObjectId;
+export interface User extends Document, UserInterface {
   name: string;
   email: string;
   password: string;
