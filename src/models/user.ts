@@ -1,0 +1,38 @@
+import { Schema, Document, model } from 'mongoose';
+
+export interface User extends Document {
+  _id: Schema.Types.ObjectId;
+  name: string;
+  email: string;
+  password: string;
+  isAdmin: boolean;
+}
+
+const userSchema: Schema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
+  },
+  {
+    timestamps: true
+  }
+);
+
+const User = model<User>('User', userSchema);
+
+export default User;
