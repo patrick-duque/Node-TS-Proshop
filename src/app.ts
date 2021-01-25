@@ -1,10 +1,14 @@
 import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
-import products from './routes/products';
 import dotenv from 'dotenv';
 
+import connectDB from './config/db';
+import products from './routes/products';
+
 dotenv.config();
+
+connectDB();
 
 const app = express();
 const port = process.env.PORT || 8080;
