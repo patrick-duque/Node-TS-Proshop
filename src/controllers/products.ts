@@ -8,21 +8,21 @@ interface GetSingleProductParams {
 export const getProducts: RequestHandler = async (req, res) => {
   try {
     const products = await Product.find({});
-    return res.status(200).json(products);
+    res.status(200).json(products);
   } catch (error) {
-    return res.status(500).json(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-export const getSingleProduct: RequestHandler<GetSingleProductParams> = (req, res) => {
+export const getSingleProduct: RequestHandler<GetSingleProductParams> = async (req, res) => {
   try {
     const id = req.params.id;
-    const product = Product.findById(id);
+    const product = await Product.findById(id);
     if (product) {
       return res.status(200).json({ product });
     }
     return res.status(404).json({ message: 'No product found' });
   } catch (error) {
-    return res.status(500).json(error);
+    res.status(500).json({ message: error.message });
   }
 };
