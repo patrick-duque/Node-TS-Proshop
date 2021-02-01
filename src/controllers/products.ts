@@ -19,7 +19,7 @@ export const getSingleProduct: RequestHandler<GetSingleProductParams> = async (r
     const id = req.params.id;
     const product = await Product.findById(id);
     if (product) {
-      return res.status(200).json({ product });
+      return res.status(200).json(product);
     }
     return res.status(404).json({ message: 'No product found' });
   } catch (error) {

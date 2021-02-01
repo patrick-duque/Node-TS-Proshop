@@ -1,8 +1,7 @@
 import { Schema, Document, model } from 'mongoose';
 import { UserInterface } from './interface';
 
-export interface User extends Document, UserInterface {
-}
+export interface UserType extends Document, UserInterface {}
 
 const userSchema: Schema = new Schema(
   {
@@ -22,13 +21,25 @@ const userSchema: Schema = new Schema(
     isAdmin: {
       type: Boolean,
       default: false
-    }
+    },
+    cart: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          required: true,
+          ref: 'Product'
+        },
+        quantity: {
+          type: Number
+        }
+      }
+    ]
   },
   {
     timestamps: true
   }
 );
 
-const User = model<User>('User', userSchema);
+const User = model<UserType>('User', userSchema);
 
 export default User;

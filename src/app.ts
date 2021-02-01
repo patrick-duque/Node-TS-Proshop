@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import connectDB from './config/db';
 import products from './routes/products';
+import users from './routes/users';
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(json());
 app.use(cors());
 
 app.use('/api/products', products);
+app.use('/api/users', users);
 
 app.use((req, res, next) => {
   const error = new Error(`Not found - ${req.originalUrl}`);
