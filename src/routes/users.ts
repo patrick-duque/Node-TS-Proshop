@@ -6,6 +6,7 @@ const router = Router();
 
 router.post('/login', userController.loginUser);
 router.post('/register', userController.registerUser);
-router.get('/:id', protect, userController.getUserProfile);
+router.get('/user', userController.checkUser);
+router.get('/user/:id', protect, userController.updateUserProfile);
 
 export default router;
