@@ -7,6 +7,7 @@ const protect: RequestHandler = async (req, res, next) => {
     if (token && token.startsWith('Bearer')) {
       const decoded: any = verify(token.split(' ')[1], process.env.JWT_KEY as string);
       if (decoded.exp * 1000 >= Date.now()) {
+        req.user = decoded;
         next();
       } else {
         res.status(401);

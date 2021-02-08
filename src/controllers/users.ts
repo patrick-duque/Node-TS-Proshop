@@ -14,7 +14,6 @@ interface LoginParams {
 export const loginUser: RequestHandler<any, any, LoginParams> = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password);
     const user: UserType = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
       const { email, isAdmin, _id, cart, name } = user;
@@ -28,12 +27,12 @@ export const loginUser: RequestHandler<any, any, LoginParams> = async (req, res)
   }
 };
 
-// @desc Update User
-// @route PUT /api/users/user
+// @desc Edit User
+// @route PUT /api/users/editUser
 // @access Private
-export const updateUserProfile: RequestHandler = async (req, res) => {
+export const editUserProfile: RequestHandler = async (req, res) => {
   try {
-    const user: UserType = await User.findById(req.params.id);
+    const user: UserType = await User.findById(req.user.id);
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
@@ -91,7 +90,8 @@ export const checkUser: RequestHandler = async (req, res) => {
     if (req.headers.authorization) {
       res.status(200).json({ auth: true });
     } else {
-      res.status(200).json({ auth: false });
+      res.status(401);
+      throw new Error('Unauthorized user');
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

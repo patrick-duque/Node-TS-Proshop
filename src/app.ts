@@ -6,10 +6,19 @@ import dotenv from 'dotenv';
 import connectDB from './config/db';
 import products from './routes/products';
 import users from './routes/users';
+import { UserType } from './models/user';
 
 dotenv.config();
 
 connectDB();
+
+declare global {
+  namespace Express {
+    interface Request {
+      user: UserType;
+    }
+  }
+}
 
 const app = express();
 const port = process.env.PORT || 5000;
