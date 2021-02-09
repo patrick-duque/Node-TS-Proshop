@@ -25,6 +25,7 @@ const userSchema: Schema = new Schema(
     },
     cart: [
       {
+        _id: false,
         product: {
           type: Schema.Types.ObjectId,
           required: true,
