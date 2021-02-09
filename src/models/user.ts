@@ -1,4 +1,4 @@
-import { NextFunction } from 'express';
+import autoPopulate from 'mongoose-autopopulate';
 import { Schema, Document, model } from 'mongoose';
 import { UserInterface } from './interface';
 
@@ -41,7 +41,7 @@ const userSchema: Schema = new Schema(
     timestamps: true
   }
 );
-userSchema.plugin(require('mongoose-autopopulate'));
+userSchema.plugin(autoPopulate);
 const User = model<UserType>('User', userSchema);
 
 export default User;
