@@ -85,7 +85,14 @@
     "@types/bson" "*"
     "@types/node" "*"
 
-"@types/mongoose@^5.10.3":
+"@types/mongoose-autopopulate@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@types/mongoose-autopopulate/-/mongoose-autopopulate-0.10.1.tgz#2b879fc2a93f74079d63b34f01acfead48a67a00"
+  integrity sha512-L67MAIE3WEoTtt7a7/spRYk+76lgp67FAP6I38Y9NcC1kQuzwqnukTaJzodfb8180wxHZM4qt68u6x6ptuDRaQ==
+  dependencies:
+    "@types/mongoose" "*"
+
+"@types/mongoose@*", "@types/mongoose@^5.10.3":
   version "5.10.3"
   resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.10.3.tgz#3bc6787245aa8ebbff4ed61da18f4775e0ec52cd"
   integrity sha512-VfdnaFImXEJZZiuL2ID/ysZs4inOIjxwrAnUgkr5eum2O2BLhFkiSI0i87AwignVva1qWTJ3H3DyM0Rf4USJ4A==
@@ -989,6 +996,11 @@ mongodb@3.6.3:
     safe-buffer "^5.1.2"
   optionalDependencies:
     saslprep "^1.0.0"
+
+mongoose-autopopulate@^0.12.3:
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/mongoose-autopopulate/-/mongoose-autopopulate-0.12.3.tgz#5bf111db3fa485f5031d3303f6f25625304888e3"
+  integrity sha512-yNmYsfi6OpS/GQ+48mkB0KQ199ExHmmPrt3wt3fyxPHPMtEBGts7yq3wBQR6VgKCPOQaKvCI1URbJCPOtrPeLw==
 
 mongoose-legacy-pluralize@1.0.2:
   version "1.0.2"

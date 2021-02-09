@@ -83,8 +83,8 @@ export const registerUser: RequestHandler = async (req, res) => {
 };
 
 // @desc Check User auth
-// @route GET /api/users/user/:id
-// @access Public
+// @route GET /api/users/user
+// @access Private
 export const checkUser: RequestHandler = async (req, res) => {
   try {
     if (req.headers.authorization) {
@@ -92,6 +92,33 @@ export const checkUser: RequestHandler = async (req, res) => {
     } else {
       res.status(401);
       throw new Error('Unauthorized user');
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc Add to User cart
+// @route POST /api/users/cart
+// @access Private
+export const addToUserCart: RequestHandler = async (req, res) => {
+  try {
+    const user: UserType = await User.findById(req.user.id);
+    user.populate('product');
+    if (!user) {
+      res.status(404);
+      throw new Error('No user found');
+    } else {
+      const { product, quantity } = req.body;
+      const item = user.cart.find(i => i.product._id == product);
+      if (item) {
+        item.quantity += +quantity;
+        user.cart = user.cart.map(i => (i.product === item.product ? item : i));
+      } else {
+        user.cart.push({ product, quantity });
+      }
+      const addedToCart = await user.save();
+      res.status(201).json({ cart: addedToCart.cart });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });

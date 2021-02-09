@@ -1,8 +1,9 @@
 import { Schema } from 'mongoose';
 import Product from './product';
 
-export interface CartItemsInterface extends ProductInterface {
-	quantity: number
+export interface CartItemsInterface {
+  quantity: number;
+  product: Product;
 }
 
 export interface ProductInterface {
@@ -29,8 +30,8 @@ export interface UserInterface {
   name: string;
   email: string;
   password: string;
-	isAdmin?: boolean;
-	cart?: CartItemsInterface[]
+  isAdmin?: boolean;
+  cart: CartItemsInterface[];
 }
 
 export interface OrderInterface {

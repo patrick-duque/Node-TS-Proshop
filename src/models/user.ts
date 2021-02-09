@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import { Schema, Document, model } from 'mongoose';
 import { UserInterface } from './interface';
 
@@ -27,7 +28,8 @@ const userSchema: Schema = new Schema(
         product: {
           type: Schema.Types.ObjectId,
           required: true,
-          ref: 'Product'
+          ref: 'Product',
+          autopopulate: true
         },
         quantity: {
           type: Number
@@ -39,7 +41,7 @@ const userSchema: Schema = new Schema(
     timestamps: true
   }
 );
-
+userSchema.plugin(require('mongoose-autopopulate'));
 const User = model<UserType>('User', userSchema);
 
 export default User;
