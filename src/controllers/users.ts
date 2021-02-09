@@ -104,7 +104,6 @@ export const checkUser: RequestHandler = async (req, res) => {
 export const addToUserCart: RequestHandler = async (req, res) => {
   try {
     const user: UserType = await User.findById(req.user.id);
-    user.populate('product');
     if (!user) {
       res.status(404);
       throw new Error('No user found');
@@ -119,6 +118,32 @@ export const addToUserCart: RequestHandler = async (req, res) => {
       }
       const addedToCart = await user.save();
       res.status(201).json({ cart: addedToCart.cart });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// @desc Add to User cart
+// @route GET /api/users/cart/:productId
+// @access Private
+export const removeFromUserCart: RequestHandler = async (req, res) => {
+  try {
+    const user: UserType = await User.findById(req.user.id);
+    if (!user) {
+      res.status(404);
+      throw new Error('No user found');
+    } else {
+      const { productId } = req.params;
+      const itemIndex = user.cart.findIndex(i => i.product._id == productId);
+      if (itemIndex) {
+        user.cart.splice(itemIndex, 1);
+      } else {
+        res.status(500);
+        throw new Error('Something went wrong');
+      }
+      const editedCart = await user.save();
+      res.status(201).json({ cart: editedCart.cart });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
