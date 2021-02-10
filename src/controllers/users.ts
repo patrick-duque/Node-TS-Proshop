@@ -8,6 +8,8 @@ interface LoginParams {
   password: string;
 }
 
+const setExpiry = () => Math.floor(Date.now()) + 60 * 60 * 1000;
+
 // @desc Login User
 // @route POST /api/users/login
 // @access Public
@@ -18,7 +20,8 @@ export const loginUser: RequestHandler<any, any, LoginParams> = async (req, res)
     if (user && (await bcrypt.compare(password, user.password))) {
       const { email, isAdmin, _id, cart, name } = user;
       const token = generateToken(_id);
-      res.status(200).json({ email, isAdmin, _id, cart, name, token });
+      const expiry = setExpiry();
+      res.status(200).json({ email, isAdmin, _id, cart, name, token, expiry });
     } else {
       res.status(401).json({ message: 'Invalid Credentials' });
     }
@@ -43,7 +46,8 @@ export const editUserProfile: RequestHandler = async (req, res) => {
       const updatedUser = await user.save();
       const { email, isAdmin, _id, cart, name } = updatedUser;
       const token = generateToken(_id);
-      res.status(200).json({ email, isAdmin, _id, cart, name, token });
+      const expiry = setExpiry();
+      res.status(200).json({ email, isAdmin, _id, cart, name, token, expiry });
     } else {
       res.status(404).json({ message: 'No user found' });
     }
@@ -71,7 +75,8 @@ export const registerUser: RequestHandler = async (req, res) => {
       if (user) {
         const { email, isAdmin, _id, cart, name } = user;
         const token = generateToken(_id);
-        res.status(201).json({ email, isAdmin, _id, cart, name, token });
+        const expiry = setExpiry();
+        res.status(201).json({ email, isAdmin, _id, cart, name, token, expiry });
       } else {
         res.status(400);
         throw new Error('Invalid data');
@@ -135,9 +140,9 @@ export const removeFromUserCart: RequestHandler = async (req, res) => {
       throw new Error('No user found');
     } else {
       const { productId } = req.params;
-      const itemIndex = user.cart.findIndex(i => i.product._id == productId);
-      if (itemIndex) {
-        user.cart.splice(itemIndex, 1);
+      const deleteItem = user.cart.find(i => i.product._id == productId);
+      if (deleteItem) {
+        user.cart = user.cart.filter(item => item.product._id !== deleteItem.product._id);
       } else {
         res.status(500);
         throw new Error('Something went wrong');
