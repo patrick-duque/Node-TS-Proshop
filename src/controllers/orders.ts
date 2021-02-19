@@ -18,7 +18,7 @@ export const addOrder: RequestHandler = async (req, res) => {
 				itemsPrice,
 				shippingPrice,
 				totalPrice,
-				user: req.user._id
+				user: req.user.id
 			});
 
 			const createdOrder = await order.save();
