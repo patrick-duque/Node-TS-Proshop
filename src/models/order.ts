@@ -2,7 +2,7 @@ import autoPopulate from 'mongoose-autopopulate';
 import { Schema, Document, model } from 'mongoose';
 import { OrderInterface } from './interface';
 
-export interface Order extends Document, OrderInterface {}
+export interface OrderType extends Document, OrderInterface {}
 
 const orderSchema: Schema = new Schema(
 	{
@@ -80,6 +80,6 @@ const orderSchema: Schema = new Schema(
 	}
 );
 orderSchema.plugin(autoPopulate);
-const Order = model<Order>('Order', orderSchema);
+const Order = model<OrderType>('Order', orderSchema);
 
 export default Order;

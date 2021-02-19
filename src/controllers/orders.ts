@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import Order from '../models/order';
+import Order, { OrderType } from '../models/order';
 import User, { UserType } from '../models/user';
 
 // @desc Create new Order
@@ -29,6 +29,30 @@ export const addOrder: RequestHandler = async (req, res) => {
 			await user.save();
 			res.status(201).json(createdOrder);
 		}
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+// @desc Get Orders by User
+// @route GET /api/orders/user
+// @access Private
+export const getOrdersByUser: RequestHandler = async (req, res) => {
+	try {
+		const orders: OrderType[] = await Order.find({ user: req.user.id });
+		res.status(200).json(orders);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+// @desc Get All Orders
+// @route GET /api/orders/
+// @access Private
+export const getOrdersByAdmin: RequestHandler = async (req, res) => {
+	try {
+		const orders: OrderType[] = await Order.find({});
+		res.status(200).json(orders);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
