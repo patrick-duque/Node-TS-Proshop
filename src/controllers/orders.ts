@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import Order from '../models/order';
+import User, { UserType } from '../models/user';
 
 // @desc Create new Order
 // @route POST /api/orders
@@ -23,6 +24,9 @@ export const addOrder: RequestHandler = async (req, res) => {
 
 			const createdOrder = await order.save();
 
+			const user: UserType = await User.findById(req.user.id);
+			user.cart = [];
+			await user.save();
 			res.status(201).json(createdOrder);
 		}
 	} catch (error) {
