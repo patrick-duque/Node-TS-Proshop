@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as userController from '../controllers/users';
-import protect from '../middleware/authMiddleware';
+import { protect, admin } from '../middleware/authMiddleware';
 
 const router = Router();
 
@@ -10,5 +10,6 @@ router.get('/user', protect, userController.checkUser);
 router.put('/editUser', protect, userController.editUserProfile);
 router.post('/cart', protect, userController.addToUserCart);
 router.get('/cart/:productId', protect, userController.removeFromUserCart);
+router.get('/users/admin', protect, admin, userController.getAllUsers);
 
 export default router;

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as orderController from '../controllers/orders';
-import protect from '../middleware/authMiddleware';
+import { protect, admin } from '../middleware/authMiddleware';
 
 const router = Router();
 
