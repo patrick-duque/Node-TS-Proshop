@@ -27,7 +27,7 @@
     "mongoose-autopopulate": "^0.12.3"
   },
   "scripts": {
-    "start-dev": "nodemon src/app.ts",
+    "dev": "nodemon src/app.ts",
     "start": "yarn run build && node dist/app.js",
     "build": "rm -rf dist && tsc -p .",
     "data-import": "ts-node src/seeder.ts",

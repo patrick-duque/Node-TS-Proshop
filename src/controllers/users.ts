@@ -166,4 +166,15 @@ export const getAllUsers: RequestHandler = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
- 
+
+// @desc Delete User Account
+// @route Delete /api/users/user
+// @access Private
+export const deleteUser: RequestHandler = async (req, res) => {
+	try {
+		await User.findByIdAndDelete(req.user.id);
+		res.status(201).json({ message: 'Successfully Deleted account.' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
