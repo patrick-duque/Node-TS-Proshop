@@ -33,3 +33,16 @@ export const getSingleProduct: RequestHandler<GetSingleProductParams> = async (r
 		res.status(500).json({ message: error.message });
 	}
 };
+
+// @desc Delete Single Products
+// @route DELETE /api/products/:id
+// @access Private/Admin
+export const deleteSingleProduct: RequestHandler = async (req, res) => {
+	try {
+		const id = req.params.id;
+		await Product.findByIdAndDelete(id);
+		res.status(201).json({ message: 'Successfully Deleted Product' });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
