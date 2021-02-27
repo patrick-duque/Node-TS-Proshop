@@ -1,3 +1,4 @@
+import path from 'path';
 import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
@@ -7,6 +8,7 @@ import connectDB from './config/db';
 import products from './routes/products';
 import users from './routes/users';
 import orders from './routes/orders';
+import uploads from './routes/uploads';
 import { UserType } from './models/user';
 
 dotenv.config();
@@ -27,9 +29,12 @@ const port = process.env.PORT || 5000;
 app.use(json());
 app.use(cors());
 
+app.use('/uploads', express.static('uploads'));
+
 app.use('/api/products', products);
 app.use('/api/users', users);
 app.use('/api/orders', orders);
+app.use('/api/uploads', uploads);
 
 app.get('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID));
 
