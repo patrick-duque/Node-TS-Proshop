@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
 import Product, { ProductType } from '../models/product';
+import fs from 'fs';
+import path from 'path';
 
 interface GetSingleProductParams {
 	id: string;
@@ -40,9 +42,13 @@ export const getSingleProduct: RequestHandler<GetSingleProductParams> = async (r
 export const deleteSingleProduct: RequestHandler = async (req, res) => {
 	try {
 		const id = req.params.id;
-		await Product.findByIdAndDelete(id);
+		const product: ProductType = await Product.findById(id);
+		console.log(product);
+		fs.unlinkSync(path.join(process.cwd(), product.image));
+		await product.delete();
 		res.status(201).json({ message: 'Successfully Deleted Product' });
 	} catch (error) {
+		console.error(error);
 		res.status(500).json({ message: error.message });
 	}
 };
@@ -80,15 +86,16 @@ export const editSingleProduct: RequestHandler = async (req, res) => {
 // @access Private/Admin
 export const createProduct: RequestHandler = async (req, res) => {
 	try {
+		const { name, price, image, brand, category, description } = req.body;
 		const product = new Product({
-			name: 'Sample Product',
-			price: 0,
+			name,
+			price,
 			user: req.user.id,
-			image: '/images/sample.jpg',
-			brand: 'Sample brand',
-			category: 'Sample category',
+			image,
+			brand,
+			category,
 			numReviews: 0,
-			description: 'Sample description',
+			description,
 			countInStock: 0
 		});
 
