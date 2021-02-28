@@ -91,3 +91,25 @@ export const updateOrderToPaid: RequestHandler = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
+// @desc Update Order to delivered
+// @route GET /api/orders/:id/deliver
+// @access Private/Admin
+export const updateOrderToDelivered: RequestHandler = async (req, res) => {
+	try {
+		const order: OrderType = await Order.findById(req.params.id);
+
+		if (!order) {
+			res.status(404);
+			throw new Error('No order found');
+		} else {
+			order.isDelivered = true;
+			order.deliveredAt = new Date();
+
+			const updatedOrder = await order.save();
+			res.status(201).json(updatedOrder);
+		}
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
