@@ -1,9 +1,9 @@
 import { Schema } from 'mongoose';
-import Product from './product';
+import { ProductType } from './product';
 
 export interface CartItemsInterface {
 	quantity: number;
-	product: Product;
+	product: ProductType;
 }
 
 export interface ProductInterface {
@@ -16,14 +16,15 @@ export interface ProductInterface {
 	countInStock: number;
 	rating: number;
 	numReviews: number;
-	user?: Schema.Types.ObjectId;
-	reviews?: ReviewInterface[];
+	user: Schema.Types.ObjectId;
+	reviews: ReviewInterface[];
 }
 
 export interface ReviewInterface {
 	name: string;
 	rating: number;
 	comment: string;
+	user: Schema.Types.ObjectId;
 }
 
 export interface UserInterface {

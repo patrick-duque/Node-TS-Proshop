@@ -9,5 +9,6 @@ router.get('/:id', productController.getSingleProduct);
 router.delete('/:id', protect, admin, productController.deleteSingleProduct);
 router.put('/:id', protect, admin, productController.editSingleProduct);
 router.post('/', protect, admin, productController.createProduct);
+router.post('/:id/reviews', protect, productController.createProductReview);
 
 export default router;

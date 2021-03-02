@@ -2,6 +2,7 @@ import { RequestHandler } from 'express';
 import Product, { ProductType } from '../models/product';
 import fs from 'fs';
 import path from 'path';
+import { ReviewInterface } from '../models/interface';
 
 interface GetSingleProductParams {
 	id: string;
@@ -101,6 +102,42 @@ export const createProduct: RequestHandler = async (req, res) => {
 
 		const createdProduct = await product.save();
 		res.status(201).json(createdProduct);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+// @desc Create new Review
+// @route POST /api/products/:id/reviews
+// @access Private
+export const createProductReview: RequestHandler = async (req, res) => {
+	try {
+		const { rating, comment, name } = req.body;
+		const product: ProductType = await Product.findById(req.params.id);
+		if (!product) {
+			res.status(404);
+			throw new Error('No product found');
+		} else {
+			const alreadyReviewed = product.reviews.find(r => r.user.toString() === req.user.id);
+
+			if (alreadyReviewed) {
+				res.status(400);
+				throw new Error('Product already reviewed');
+			} else {
+				const review: ReviewInterface = {
+					name,
+					rating: +rating,
+					user: req.user.id,
+					comment
+				};
+
+				product.reviews.push(review);
+				product.numReviews = product.reviews.length;
+				product.rating = product.reviews.reduce((acc, current) => current.rating + acc, 0) / product.numReviews;
+				await product.save();
+				res.status(201).json({ message: 'Review added' });
+			}
+		}
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
