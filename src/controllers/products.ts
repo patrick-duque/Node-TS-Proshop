@@ -13,7 +13,12 @@ interface GetSingleProductParams {
 // @access Public
 export const getProducts: RequestHandler = async (req, res) => {
 	try {
-		const products = await Product.find({});
+		let keywords = {};
+		if (req.query.keywords) {
+			keywords = { name: { $regex: req.query.keywords, $options: 'i' } };
+		}
+
+		const products = await Product.find({ ...keywords });
 		res.status(200).json(products);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
