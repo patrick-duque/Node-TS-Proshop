@@ -135,7 +135,7 @@ export const createProductReview: RequestHandler = async (req, res) => {
 				product.numReviews = product.reviews.length;
 				product.rating = product.reviews.reduce((acc, current) => current.rating + acc, 0) / product.numReviews;
 				await product.save();
-				res.status(201).json({ message: 'Review added' });
+				res.status(201).json({ review: product.reviews[product.reviews.length - 1] });
 			}
 		}
 	} catch (error) {
