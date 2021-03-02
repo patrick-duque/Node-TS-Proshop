@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import { json } from 'body-parser';
 import cors from 'cors';
+import morgan from 'morgan';
 import dotenv from 'dotenv';
 
 import connectDB from './config/db';
@@ -24,6 +25,10 @@ declare global {
 }
 
 const app = express();
+if (process.env.NODE_ENV === 'development') {
+	app.use(morgan('dev'));
+}
+
 const port = process.env.PORT || 5000;
 
 app.use(json());
