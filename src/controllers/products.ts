@@ -14,12 +14,16 @@ interface GetSingleProductParams {
 export const getProducts: RequestHandler = async (req, res) => {
 	try {
 		let keywords = {};
+		const pageSize = 6;
+		const page = req.query.pageNumber ? +req.query.pageNumber : 1;
+
 		if (req.query.keywords) {
 			keywords = { name: { $regex: req.query.keywords, $options: 'i' } };
 		}
 
-		const products = await Product.find({ ...keywords });
-		res.status(200).json(products);
+		const count = await Product.countDocuments({ ...keywords });
+		const products = await Product.find({ ...keywords }).limit(pageSize).skip(pageSize * (page - 1));
+		res.status(200).json({ products, page, pages: Math.ceil(count / pageSize) });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
