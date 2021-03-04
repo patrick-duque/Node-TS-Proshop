@@ -33,8 +33,6 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "yarn run build && node dist/app.js",
-    "build": "rm -rf dist && tsc -p .",
-    "data-import": "ts-node src/seeder.ts",
-    "data-destroy": "ts-node src/seeder.ts -d"
+    "build": "rm -rf dist && tsc -p ."
   }
 }
