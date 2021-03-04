@@ -32,7 +32,6 @@
   },
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start": "ts-node src/app.js",
-		"build": "tsc --project ./dist"
+    "start": "node src/app.js"
   }
 }
