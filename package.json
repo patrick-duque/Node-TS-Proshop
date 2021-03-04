@@ -32,7 +32,7 @@
   },
   "scripts": {
     "dev": "nodemon src/app.ts",
-    "start": "yarn run build && node dist/app.js",
-    "build": "tsc -p ."
+    "start": "ts-node src/app.js",
+    "build": "rm -rf dist && tsc -p ."
   }
 }
