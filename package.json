@@ -33,6 +33,6 @@
   "scripts": {
     "dev": "nodemon src/app.ts",
     "start": "yarn run build && node dist/app.js",
-    "build": "rm -rf dist && tsc -p ."
+    "build": "tsc -p ."
   }
 }
