@@ -8,6 +8,18 @@ interface GetSingleProductParams {
 	id: string;
 }
 
+// @desc Get All Products path
+// @route GET /api/products/all
+// @access Public
+export const getAllProducts: RequestHandler = async (req, res) => {
+	try {
+		const products = await Product.find();
+		res.status(200).json({ products });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
 // @desc Get All Products
 // @route GET /api/products
 // @access Public
