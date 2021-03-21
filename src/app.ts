@@ -11,6 +11,7 @@ import users from './routes/users';
 import orders from './routes/orders';
 import uploads from './routes/uploads';
 import { UserType } from './models/user';
+import { getAllProducts } from './controllers/products';
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 app.use('/api/products', products);
+app.get('/api/paths', getAllProducts);
 app.use('/api/users', users);
 app.use('/api/orders', orders);
 app.use('/api/uploads', uploads);
